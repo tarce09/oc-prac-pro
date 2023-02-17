@@ -18,5 +18,3 @@ def put_train():
         ReturnConsumedCapacity="TOTAL"
     )
     print(json.dumps(response, indent=2))
-
-put_train()
