@@ -9,7 +9,7 @@ def put_train():
     dynamodb_resource = boto3.resource("dynamodb")
     table = dynamodb_resource.Table(table_name)
     arr1=[]
-    for i in range(1,101):
+    for i in range(1,1):
         arr1.append(int(i))
     response = table.put_item(
         Item={
@@ -28,55 +28,77 @@ def put_train():
 
 
 def add_booking(Tr_no,Email,Name,Age,Gender):
-    try:
-        table_name= 'Bookings'
-        fetch_table='TrainTravel'
-        dynamodb_resource = boto3.resource("dynamodb")
-        db_fetch=boto3.resource("dynamodb")
-        get_table = db_fetch.Table(fetch_table)
-        get_response = get_table.get_item(
+    table_name= 'Bookings'
+    fetch_table='TrainTravel'
+    dynamodb_resource = boto3.resource("dynamodb")
+    db_fetch=boto3.resource("dynamodb")
+    get_table = db_fetch.Table(fetch_table)
+    get_response = get_table.get_item(
+        Key = {
+           "Tr_no":Tr_no
+        }
+    )
+    item = get_response['Item']
+    all_seats=item['Availableseats']
+        
+    status="Booked"
+        
+    table = dynamodb_resource.Table(table_name)
+    while(True):
+        pnr = str("".join(random.choices(string.ascii_uppercase + string.digits, k = 8)))
+        print(pnr)
+        response=table.get_item(
             Key = {
-                "Tr_no":Tr_no
+                "PNR":pnr
             }
         )
-        item = get_response['Item']
-        all_seats=item['Availableseats']
+        print(response)
+        if 'Item' in response:
+            print(pnr)
+        else:
+            print(pnr)
+            break
+
+        
+    print(pnr)
+    if(len(all_seats)==0):
+        status="Waiting"
+        wait_list=item['Waitinglist']
+        print(wait_list)
+        wait_list.append(pnr)
+        item['Waitinglist']=wait_list
+        taken_seat=-1
+        print(wait_list)
+    elif(len(all_seats)>0):
         taken_seat = all_seats[0]
         print(taken_seat)
         all_seats.remove(taken_seat)
         item['Availableseats']=all_seats
-        print(item['Availableseats'])
 
+    get_table.put_item(
+        Item=item
+    )
         
-        get_table.put_item(
-            Item=item
-        )
-        status="Booked"
-        pnr = str("".join(random.choices(string.ascii_uppercase + string.digits, k = 8)))
+    now = datetime.now()
         
-        table = dynamodb_resource.Table(table_name)
-        now = datetime.now()
-        
-        dt=str(now.strftime("%d/%m/%Y %H:%M:%S"))
-        print(pnr)
-        response = table.put_item(
-            Item={
-                "PNR":pnr,
-                "Tr_no":Tr_no,
-                "Email": Email,
-                "Name": Name,
-                "Age" : Age,
-                "Gender": Gender,
-                "SeatNo": taken_seat,
-                "Time and date" : dt,
-                "Status": status
-            },
-            ReturnConsumedCapacity="TOTAL"
-        )
-        
-        print(json.dumps(response, indent=2))
-    except:
-        print("Exception occured")
+    dt=str(now.strftime("%d/%m/%Y %H:%M:%S"))
+    print(pnr)
+    response = table.put_item(
+        Item={
+            "PNR":pnr,
+            "Tr_no":Tr_no,
+            "Email": Email,
+            "Name": Name,
+            "Age" : Age,
+            "Gender": Gender,
+            "SeatNo": taken_seat,
+            "Time and date" : dt,
+            "Status": status
+        },
+    ReturnConsumedCapacity="TOTAL"
+    )
     
-put_train()
+    print(json.dumps(response, indent=2))
+    
+#put_train()
 add_booking(1,"aryan","aryan",32,"aryan")
