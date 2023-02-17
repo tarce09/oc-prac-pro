@@ -76,7 +76,7 @@ def add_booking(Tr_no,Email,Name,Age,Gender):
         
         print(json.dumps(response, indent=2))
     except:
-        print("nahi hua")
+        print("Exception occured")
     
 put_train()
 add_booking(1,"aryan","aryan",32,"aryan")
