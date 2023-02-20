@@ -28,7 +28,6 @@ def put_train():
 
 
 def add_booking(Tr_no,Email,Name,Age,Gender):
-    table_name= 'Bookings'
     fetch_table='TrainTravel'
     dynamodb_resource = boto3.resource("dynamodb")
     db_fetch=boto3.resource("dynamodb")
@@ -42,7 +41,8 @@ def add_booking(Tr_no,Email,Name,Age,Gender):
     all_seats=item['Availableseats']
         
     status="Booked"
-        
+    
+    table_name= 'Bookings'    
     table = dynamodb_resource.Table(table_name)
     while(True):
         pnr = str("".join(random.choices(string.ascii_uppercase + string.digits, k = 8)))
@@ -98,7 +98,9 @@ def add_booking(Tr_no,Email,Name,Age,Gender):
     ReturnConsumedCapacity="TOTAL"
     )
     
-    print(json.dumps(response, indent=2))
+    print("created successfuly")
+
+
     
 #put_train()
-add_booking(1,"aryan","aryan",32,"aryan")
+add_booking(1,"raju","rajumail",43,"male")
