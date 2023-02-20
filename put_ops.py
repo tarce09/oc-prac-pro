@@ -9,15 +9,15 @@ def put_train():
     dynamodb_resource = boto3.resource("dynamodb")
     table = dynamodb_resource.Table(table_name)
     arr1=[]
-    for i in range(1,1):
+    for i in range(1,11):
         arr1.append(int(i))
     response = table.put_item(
         Item={
-            "Tr_no":1,
-            "RouteId":"Dur-Kol",
-            "TrainId":3,
-            "Deptime":"11:00 03/04/2023",
-            "Arrivaltime":"14:00 03/04/2023",
+            "Tr_no":2,
+            "RouteId":"Che-Mum",
+            "TrainId":1,
+            "Deptime":"02/27/23 13:55:26",
+            "Arrivaltime":"02/28/23 03:35:46",
             "Availableseats":arr1,
             "Waitinglist":[]
         },
@@ -103,4 +103,4 @@ def add_booking(Tr_no,Email,Name,Age,Gender):
 
     
 #put_train()
-add_booking(1,"raju","rajumail",43,"male")
+add_booking(2,"mrraju2","myrajumail",63,"gg")
