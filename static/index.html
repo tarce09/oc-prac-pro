@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <style>
+        .table,th,td{
+            border: 2px solid black;
+        }
+    </style>
+    <body>
+        <h1>hi i am aryan</h1>
+<!--
+        <table>
+            <thead>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Tr_no</th>
+                <Th>from</Th>
+                <th>To</th>
+                <th>Train Name</th>
+                <th>Arrival Time</th>
+                <th>Departure Time</th>
+                <th>seat no</th>
+                <th>status</th>
+                <th>waiting no</th>
+            </thead>
+            <tbody>
+                <tr id="name"></tr>
+                <tr id="Email"></tr>
+                <tr id="Age"></tr>
+                <tr id="Gender"></tr>
+                <tr id="Tr_no"></tr>
+                <tr id="From"></tr>
+                <tr id="To"></tr>
+                <tr id="Train_Name"></tr>
+                <tr id="Arrival_Time"></tr>
+                <tr id="Departure_Time"></tr>
+                <tr id="Seat_No"></tr>
+                <tr id="Status"></tr>
+            </tbody>
+        </table>
+-->
+        <form action="" method="get">
+            <input type="text" name="id" id="id">
+            <input type="button" value="" onclick="getval(document.getElementById('id').value)">
+        </form>
+        
+        <div id="new"></div>
+        <script>
+            function getval(id){
+                var st= 'https://leupywj5gk.execute-api.us-east-1.amazonaws.com/dev/newdemo?id='+id;
+                fetch(st)
+                .then(response=>response.json())
+                .then(data=>{
+                    display(data)
+                }
+                )
+
+                
+                function display(data) {
+                console.log(data)
+                var html="<table border='0' class='table'><tr><th>Name</th><th>Email</th><th>Age</th><th>Gender</th><th>Tr_no</th><Th>from</Th><th>To</th><th>Train Name</th><th>Arrival Time</th><th>Departure Time</th><th>status</th>"
+                 
+                if(data.Status=="Booked")
+                {
+                    html = html+"<th>seat no</th>";
+                }
+                else{
+                    html = html+"<th>waiting no</th>";
+                }
+                
+                
+                html=html+"</tr><tr><td id='name'></td><td id='Email'></td><td id='Age'></td><td id='Gender'></td><td id='Tr_no'></td><td id='From'></td><td id='To'></td><td id='Train_Name'></td><td id='Arrival_Time'></td><td id='Departure_Time'></td><td id='Status'></td>"
+
+                if(data.Status=="Booked")
+                {
+                    html = html+"<td id='Seat_No'></td>";
+                }
+                else{
+                    html = html+"<td id='Waiting_No'></td></tr></table>";
+                }
+       
+
+                const cocktail = html;
+                const Div = document.getElementById("new"); 
+                Div.innerHTML = cocktail;
+                document.getElementById('name').innerHTML=data.Name;
+                document.getElementById('Email').innerHTML=data.Email;
+                document.getElementById('Age').innerHTML=data.Age;
+                document.getElementById('Gender').innerHTML=data.Gender;
+                document.getElementById('Tr_no').innerHTML=data.Tr_no;
+                document.getElementById('From').innerHTML=data.From;
+                document.getElementById('To').innerHTML=data.To;
+                document.getElementById('Train_Name').innerHTML=data.Train_Name;
+                document.getElementById('Arrival_Time').innerHTML=data.Arrival_Time;
+                document.getElementById('Departure_Time').innerHTML=data.Departure_Time;
+                document.getElementById('Status').innerHTML=data.Status;
+                if(data.Status=="Booked")
+                {
+                    document.getElementById('Seat_No').innerHTML=data.Seat_No;
+                }
+                else{
+                    document.getElementById('Waiting_No').innerHTML=data.Waiting_No;
+                }
+                }
+            }
+            let headers = new Headers();
+
+            
+            //headers.append('Access-Control-Allow-Origin', 'http://127.0.0.1:5500/static/index.html');
+            //headers.append('Access-Control-Allow-Methods', 'GET');
+            //headers.append('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+   
+  
+        </script>
+    </body>
+</html>

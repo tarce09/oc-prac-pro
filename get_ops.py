@@ -1,5 +1,20 @@
 import boto3
+from boto3.dynamodb.conditions import Attr
 #import json
+def get_route(route_id):
+    print(route_id)
+    dynamodb = boto3.resource('dynamodb')
+
+    route_table = dynamodb.Table('TrainRoutes')
+    get_response = route_table.get_item(
+        Key = {
+           "RouteId":route_id
+        }
+    ) 
+    print(get_response)
+    fro = get_response['Item']['From']
+    to = get_response['Item']['To']
+    return fro,to
 
 
 def get_train(tr_no,pnr,status):
@@ -32,18 +47,6 @@ def get_train(tr_no,pnr,status):
     #     data.extend(response['Items'])
 
 
-def get_route(route_id):
-    dynamodb = boto3.resource('dynamodb')
-
-    route_table = dynamodb.Table('TrainRoutes')
-    get_response = route_table.get_item(
-        Key = {
-           "RouteId":route_id
-        }
-    ) 
-    fro = get_response['Item']['From']
-    to = get_response['Item']['To']
-    return fro,to
 
 def get_train_name(train_id):
     dynamodb = boto3.resource('dynamodb')
@@ -56,7 +59,7 @@ def get_train_name(train_id):
         }
     )   
     train_name = get_response['Item']['Name']
-    capacity = get_response['Item']['Capacity']
+    capacity = int(get_response['Item']['Capacity'])
     return train_name,capacity
 
 def get_train_details(pnr):
@@ -82,17 +85,67 @@ def get_train_details(pnr):
 
     if status == 'Waiting':
         tr_no,arr_time,dep_time,waiting_no,fro,to,train_name = get_train(tr_no,pnr,status)
-        full_info.update({'Name':name, 'Email':email,'Age':age, 'Gender':gender, 'Tr_no':tr_no, 'From':fro, 'To':to, 'Train Name':train_name, 'Arrival_Time':arr_time, 'Departure_Time':dep_time, 'Waiting_No':waiting_no, 'Status':status})
+        full_info.update({'Name':name, 'Email':email,'Age':int(age), 'Gender':gender, 'Tr_no':int(tr_no), 'From':fro, 'To':to, 'Train_Name':train_name, 'Arrival_Time':arr_time, 'Departure_Time':dep_time, 'Waiting_No':int(waiting_no), 'Status':status})
     else:
         tr_no,arr_time,dep_time,fro,to,train_name = get_train(tr_no,pnr,status)
-        full_info.update({'Name':name, 'Email':email,'Age':age, 'Gender':gender, 'Tr_no':tr_no, 'From':fro, 'To':to, 'Train Name':train_name, 'Arrival_Time':arr_time, 'Departure_Time':dep_time, 'Seat_No':seat_no, 'Status':status})
+        full_info.update({'Name':name, 'Email':email,'Age':int(age), 'Gender':gender, 'Tr_no':int(tr_no), 'From':fro, 'To':to, 'Train_Name':train_name, 'Arrival_Time':arr_time, 'Departure_Time':dep_time, 'Seat_No':int(seat_no), 'Status':status})
 
     print(full_info)
-        
-
-
-get_train_details('8W6OKP1I')  
-
     
+    
+    return full_info
+        
+def view_route(route_id):
+    dynamodb = boto3.resource('dynamodb')
+    travel_table = dynamodb.Table('TrainTravel')
+    response = travel_table.scan(
+    FilterExpression=Attr('RouteId').eq(route_id)
+    )
+    view_trains = []
+    no_of_trains = len(response['Items'])
+    for i in range(no_of_trains):
+        train_id = response['Items'][i]['TrainId']
+        len_seats = len(response['Items'][i]['Availableseats'])
+        len_wait = len(response['Items'][i]['Waitinglist'])
+        arr_time = response['Items'][i]['Arrivaltime']
+        dep_time = response['Items'][i]['Deptime']
+        train_name, capacity = get_train_name(train_id)
+        tr_no=response['Items'][i]['Tr_no']
+        view_trains.append({'Tr_no':tr_no,'Train_Name':train_name, 'Capacity':capacity, 'AvaiableSeats': len_seats, 'Arrival_Time':arr_time, 'Departure_Time':dep_time, 'Waiting': len_wait})
+    print(view_trains)
 
+def get_train_travel(tr_no):
+    dynamodb = boto3.resource('dynamodb')
+    travel_table = dynamodb.Table('TrainTravel')
+    get_response = travel_table.get_item(
+        Key = {
+           "Tr_no":tr_no
+        }
+    )
+    res={}
+    res['Tr_no']=int(get_response['Item']['Tr_no'])
+    res['Waiting']=len(get_response['Item']['Waitinglist'])
+    res['Deptime']=get_response['Item']['Deptime']
+    res['Arrivaltime']=get_response['Item']['Arrivaltime']
+    res['Available']=len(get_response['Item']['Availableseats'])
+    
+    train_table = dynamodb.Table('Trains')
+    new_response = train_table.get_item(
+        Key = {
+           "TrainId":get_response['Item']['TrainId']
+        }
+    )
+    res['Train_name']=new_response['Item']['Name']
+    res['Route']=get_response['Item']['RouteId']
+    
+    return res
+    
+    
+    
+    
+#get_train_details('BXZ6NUTV')  
+
+view_route('Che-Mum')    
+
+#get_train_travel(1)
 

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <style>
+        .table,th,td{
+            border: 2px solid black;
+        }
+    </style>
+    <body>
+        <h1>hi i am aryan</h1>
+        <form action="" method="get">
+            <input type="text" id="dep">
+            <input type="text" id="ari">
+            <input type="button" value="" onclick="getval(document.getElementById('dep').value,document.getElementById('ari').value)">
+        </form>
+        
+        <div id="new"></div>
+        <script>
+            function getval(dep,ari){
+                var id=dep+'-'+ari;
+                console.log(id);
+                var st= 'https://leupywj5gk.execute-api.us-east-1.amazonaws.com/dev/newdemo?id='+id;
+                fetch(st)
+                .then(response=>response.json())
+                .then(data=>{
+                    display(data)
+                }
+                )
+            }
+                function display(data) {
+                console.log(data);
+                html="<table><tr><th>Train_Name</th><th>Capacity</th><th>AvaiableSeats</th><th>Arrival_Time</th><th>Departure_Time</th><th>Waiting</th><th>Book</th></tr>"
+
+                    for(var i=0;i<data.length;i++)
+                {
+                    console.log(data[i])
+                    html+="<tr><td>"+data[i].Train_Name+"</td><td>"+data[i].Capacity+"</td><td>"+data[i].AvaiableSeats+"</td><td>"+data[i].Arrival_Time+"</td><td>"+data[i].Departure_Time+"</td><td>"+data[i].Waiting+"</td><td><form action='book.html' method='GET'><button value='book' onclick=print("+data[i].Tr_no+")>Book Now</button></form></td></tr>"
+                }
+                html+="</table>"
+                const cocktail = html;
+                const Div = document.getElementById("new");
+                Div.innerHTML = cocktail;
+                }
+            let headers = new Headers();
+
+            function print(data)
+            {
+                console.log(data)
+                sessionStorage.setItem("tr_no", data)
+            }
+            
+            //headers.append('Access-Control-Allow-Origin', 'http://127.0.0.1:5500/static/index.html');
+            //headers.append('Access-Control-Allow-Methods', 'GET');
+            //headers.append('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+   
+  
+        </script>
+    </body>
+</html>

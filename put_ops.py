@@ -4,6 +4,7 @@ import string
 import random
 from datetime import datetime
 
+
 def put_train():
     table_name= 'TrainTravel'
     dynamodb_resource = boto3.resource("dynamodb")
@@ -13,7 +14,7 @@ def put_train():
         arr1.append(int(i))
     response = table.put_item(
         Item={
-            "Tr_no":2,
+            "Tr_no":3,
             "RouteId":"Che-Mum",
             "TrainId":1,
             "Deptime":"02/27/23 13:55:26",
@@ -46,7 +47,6 @@ def add_booking(Tr_no,Email,Name,Age,Gender):
     table = dynamodb_resource.Table(table_name)
     while(True):
         pnr = str("".join(random.choices(string.ascii_uppercase + string.digits, k = 8)))
-        print(pnr)
         response=table.get_item(
             Key = {
                 "PNR":pnr
@@ -56,7 +56,6 @@ def add_booking(Tr_no,Email,Name,Age,Gender):
         if 'Item' in response:
             print(pnr)
         else:
-            print(pnr)
             break
 
         
@@ -82,7 +81,6 @@ def add_booking(Tr_no,Email,Name,Age,Gender):
     now = datetime.now()
         
     dt=str(now.strftime("%d/%m/%Y %H:%M:%S"))
-    print(pnr)
     response = table.put_item(
         Item={
             "PNR":pnr,
@@ -103,4 +101,4 @@ def add_booking(Tr_no,Email,Name,Age,Gender):
 
     
 #put_train()
-add_booking(2,"mrraju2","myrajumail",63,"gg")
+#add_booking(2,"mrraju2","myrajumail",63,"gg")
