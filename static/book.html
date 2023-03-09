@@ -14,6 +14,7 @@
         }
     </style>
     <body>
+        <button onclick="logout()">logout</button>
         <h1>hey book now</h1>
 <!--        <form action="" >
             name :<input type="text" name="name" id="name"><br>
@@ -39,6 +40,18 @@
         <div id="new"></div>
         <script>
                 var id = sessionStorage.getItem('tr_no');
+                var email = sessionStorage.getItem('email');
+                console.log(email);
+                if(email=="")
+                {
+                    window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+                }
+                function logout()
+                {
+                    sessionStorage.setItem("email", "");
+                    window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+                    
+                }
                 var st= 'https://7xxq065zvj.execute-api.us-east-1.amazonaws.com/dev/newres?id='+id;
                 fetch(st)
                 .then(response=>response.json())
