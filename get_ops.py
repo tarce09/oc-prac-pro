@@ -141,11 +141,13 @@ def get_train_travel(tr_no):
     return res
     
     
+
     
     
 #get_train_details('BXZ6NUTV')  
 
-view_route('Che-Mum')    
+#view_route('Che-Mum')    
 
 #get_train_travel(1)
+
 

@@ -39,7 +39,7 @@
         <div id="new"></div>
         <script>
                 var id = sessionStorage.getItem('tr_no');
-                var st= 'https://leupywj5gk.execute-api.us-east-1.amazonaws.com/dev/newdemo?id='+id;
+                var st= 'https://7xxq065zvj.execute-api.us-east-1.amazonaws.com/dev/newres?id='+id;
                 fetch(st)
                 .then(response=>response.json())
                 .then(data=>{
@@ -57,9 +57,9 @@
                     const formData = new FormData(thisForm).entries()
                     var new_var= JSON.stringify(Object.fromEntries(formData));
                     console.log(new_var)
-                    const response = await fetch('https://leupywj5gk.execute-api.us-east-1.amazonaws.com/dev/newdemo', {
+                    const response = await fetch('https://7xxq065zvj.execute-api.us-east-1.amazonaws.com/dev/newres', {
                         method: 'POST',
-                        mode: 'no-cors',
+                        mode:"no-cors",
                         headers:{
                             'Content-Type':'application/json',
                             'Access-Control-Allow-Origin':'*'
