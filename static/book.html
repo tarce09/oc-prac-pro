@@ -35,6 +35,8 @@
             <br>
             <input type="hidden" id="tr_no" name="tr_no">
             <br>
+            <input type="hidden" id="email" name="email">
+            <br>
             <input id="postSubmit" type="submit" value="book ticket">
         </form>
         <div id="new"></div>
@@ -45,6 +47,10 @@
                 if(email=="")
                 {
                     window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+                }
+                if(id=="")
+                {
+                    window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/trains.html";
                 }
                 function logout()
                 {
@@ -67,6 +73,7 @@
                 }
                 const thisForm = document.getElementById('myForm');
                 document.getElementById("tr_no").value = id;
+                document.getElementById("email").value = email;
                 thisForm.addEventListener('submit', async function (e) {
                     e.preventDefault();
                     const formData = new FormData(thisForm).entries()
