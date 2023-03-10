@@ -23,6 +23,11 @@
         
         <div id="new"></div>
         <script>
+            var email = sessionStorage.getItem('email');
+                if(email=="")
+                {
+                    window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+                }
             function getval(dep,ari){
                 var id=dep+'-'+ari;
                 console.log(id);

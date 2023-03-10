@@ -14,7 +14,7 @@
         }
     </style>
     <body>
-        <h1>hi i am aryan</h1>
+        <h1>hi i <span id="name"></span></h1>
         <form action="" method="get">
             <input type="text" name="id" id="id">
             <input type="button" value="" onclick="getval(document.getElementById('id').value)">
@@ -22,6 +22,13 @@
         
         <div id="new"></div>
         <script>
+            var email = sessionStorage.getItem('email');
+            var name = sessionStorage.getItem('name');
+            document.getElementById("name").innerHTML=name;
+                if(email=="")
+                {
+                    window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+                }
             function getval(id){
                 console.log(id)
                 var st= "https://7xxq065zvj.execute-api.us-east-1.amazonaws.com/dev/newres?id="+id;
@@ -57,6 +64,12 @@
                 }
                 else{
                     html = html+"<td id='Waiting_No'></td>";
+                }
+                function logout()
+                {
+                    sessionStorage.setItem("email", "");
+                    window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+                    
                 }
                 html+='<td><button onclick="delfunc()">cancel</button></td></tr></table>'
 
