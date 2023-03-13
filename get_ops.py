@@ -147,11 +147,18 @@ def display_tickets(email):
     response = booking_table.scan(
     FilterExpression=Attr('Email').eq(email)
     )
-    print(response['Items'])
     view_pnr=[]
+    for i in range(len(response["Items"])):
+        if(response["Items"][i]['Status']=="Canceled"):
+            continue
+        response["Items"][i]['Tr_no']=int(response["Items"][i]['Tr_no'])
+        response["Items"][i]['Age']=int(response["Items"][i]['Age'])
+        response["Items"][i]['SeatNo']=int(response["Items"][i]['SeatNo'])
+        view_pnr.append(response["Items"][i])
+    print(view_pnr)
     
 
-#display_tickets('aryan@mail.com')
+display_tickets('aryan@mail.com')
   
 #get_train_details('BXZ6NUTV')  
 
