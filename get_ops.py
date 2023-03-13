@@ -140,10 +140,19 @@ def get_train_travel(tr_no):
     
     return res
     
+def display_tickets(email):
+    dynamodb = boto3.resource('dynamodb')
+    booking_table = dynamodb.Table('Bookings')
+
+    response = booking_table.scan(
+    FilterExpression=Attr('Email').eq(email)
+    )
+    print(response['Items'])
+    view_pnr=[]
     
 
-    
-    
+#display_tickets('aryan@mail.com')
+  
 #get_train_details('BXZ6NUTV')  
 
 #view_route('Che-Mum')    
