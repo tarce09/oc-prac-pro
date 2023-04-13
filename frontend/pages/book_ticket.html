@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/ticket.css">
+    <title>OC-Travels</title>
+</head>
+<body>
+    <html>
+<head>
+<title>Contact Us</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+</head>
+<body ng-app="">
+
+  <div class="box">
+    <div class="text">
+    <h1>TRAIN NAME</h1>
+    <hr class="redline">
+    <p>Train Details</p>
+    </div>
+  </div>
+
+  <div class="touch">
+    <h2>Booking Details</h2>
+    <hr class="redline">
+  </div>
+  
+  <form action="" method="POST" name="contact-form" id="myForm">
+  <div class="container form-margin">
+    <div class="row">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>     <div class="col-lg-4 col-md-4 col-sm-4">
+      <div class="form-group">
+    <input type="text" class="form-control" placeholder="Name" name="name" id="name" required>    
+      </div>
+    <div class="form-group">
+    <input type="number" class="form-control" placeholder="Age" name="age" id="age" required>    
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4">
+      <div class="form-group">
+    <input type="number" class="form-control" placeholder="Phone number" name="phonenumber" required>    
+      </div>
+      <div class="form-group">
+    <input type="text" class="form-control" placeholder="Gender" name="gender" id="gender" required>    
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+    </div>
+  </div>
+            <input type="hidden" id="tr_no" name="tr_no">
+            <input type="hidden" id="email" name="email">
+  <div class="container">
+    <div class="row">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+    <div class="col-lg-8 col-md-8 col-sm-8">  
+      <div class="pager">
+        <input id="postSubmit" type="submit" value="book ticket">
+      </div>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+  
+  </div>
+  </form>
+  
+  <div class="bottom-gap"></div>
+  
+</body>
+<script>
+  var id = sessionStorage.getItem('tr_no');
+  // var email = sessionStorage.getItem('email');
+  // console.log(email);
+  // if(email=="")
+  // {
+  //     window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+  // }
+  if(id=="")
+  {
+      window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/trains.html";
+  }
+  function logout()
+  {
+      // sessionStorage.setItem("email", "");
+      sessionStorage.setItem("tr_no", "");
+      // sessionStorage.setItem("name", "");
+      // window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+      
+  }
+  var st= 'https://7xxq065zvj.execute-api.us-east-1.amazonaws.com/dev/newres?id='+id;
+  fetch(st)
+  .then(response=>response.json())
+  .then(data=>{
+      display(data)
+  })
+
+  
+  function display(data) {
+  console.log(data)
+  }
+  const thisForm = document.getElementById('myForm');
+  document.getElementById("tr_no").value = id;
+  document.getElementById("email").value = email;
+  thisForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const formData = new FormData(thisForm).entries()
+      var new_var= JSON.stringify(Object.fromEntries(formData));
+      console.log(new_var)
+      const response = await fetch('https://7xxq065zvj.execute-api.us-east-1.amazonaws.com/dev/newres', {
+          method: 'POST',
+          mode:"no-cors",
+          headers:{
+              'Content-Type':'application/json',
+              'Access-Control-Allow-Origin':'*'
+          },
+          body: new_var
+      });
+      const result = await response.json();
+      console.log(result)
+  });
+
+</script>
+</html>
+</body>
+</html>

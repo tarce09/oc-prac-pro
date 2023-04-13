@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../css/style.css">
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	<title>OC-Travels</title>
+</head>
+
+<body>
+	<div class="pnr-container">
+
+		<header>
+			<h2><a href="../index.html"><i class="ion-plane"></i>OC-Travels</a></h2>
+			<nav>
+				<ul>
+					<li>
+						<a href="../index.html" title="Hotels">Book Ticket</a>
+					</li>
+					<li>
+						<a class="btn" href="login.html" title="Register / Log In">Register/Log In</a>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<div class="cover">
+			<h1>Discover what's out there.</h1>
+			<form class="flex-form pnr-form" action="" method="get">
+                <input type="search" placeholder="Enter your PNR" class="pnr" name="id" id="id">
+				<input type="button" value="submit" onclick="getval(document.getElementById('id').value)" class="pnr-submit">
+			</form>
+            <div id="table" class="table">
+                <!-- <table>
+                    <thead>
+                      <tr>
+                        <td>Avatar</td>
+                        <td>Group</td>
+                        <td>Train Name</td>
+                        <td>Ticket Price</td>
+                        <td>Booking</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><img src="https://via.placeholder.com/50x50/8C8381/fff"></td>
+                        <td>Ninja</td>
+                        <td>Ahmed Mohamed </td>
+                        <td>1200</td>
+                        <td> <button class="button-1" type="button"> Delete</button></td>
+                      </tr>
+            
+                    </tbody>
+                  
+                  </table> -->
+            </div>
+		</div>
+
+	</div>
+
+</body>
+<script>
+	// var email = sessionStorage.getItem('email');
+	var name = sessionStorage.getItem('name');
+	document.getElementById("name").innerHTML=name;
+		// if(email=="")
+		// {
+		//     window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+		// }
+	function getval(id){
+		console.log(id)
+		var st= "https://7xxq065zvj.execute-api.us-east-1.amazonaws.com/dev/newres?id="+id;
+		
+
+		fetch(st)
+		.then(response=>response.json())
+		.then(data=>{
+			display(data,id)
+		}
+	)}
+
+		
+		function display(data,id) {
+		console.log(data)
+		console.log(id)
+		var html="<table><tr><td>Name</td><td>Email</td><td>Age</td><td>Gender</td><td>Tr_no</td><Td>from</Td><td>To</td><td>Train Name</td><td>Arrival Time</td><td>Departure Time</td><td>status</td>"
+		 
+		if(data.Status=="Booked")
+		{
+			html = html+"<td>seat no</td>";
+		}
+		else{
+			html = html+"<td>waiting no</td>";
+		}
+		
+		
+		html=html+"<td>cancel</td></tr><tr><td id='name'></td><td id='Email'></td><td id='Age'></td><td id='Gender'></td><td id='Tr_no'></td><td id='From'></td><td id='To'></td><td id='Train_Name'></td><td id='Arrival_Time'></td><td id='Departure_Time'></td><td id='Status'></td>"
+
+		if(data.Status=="Booked")
+		{
+			html = html+"<td id='Seat_No'></td>";
+		}
+		else{
+			html = html+"<td id='Waiting_No'></td>";
+		}
+		// function logout()
+		// {
+		//     sessionStorage.setItem("email", "");
+		//     window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+			
+		// }
+		// if(data.Email==email)
+		// {
+		html+='<td><button onclick="delfunc()">cancel</button></td></tr></table>'
+		// }
+		
+		// else
+		// {
+		// html+='<td><button onclick="delfunc()" disabled>cancel</button></td></tr></table>'
+		// }
+		
+		
+
+		const cocktail = html;
+		const Div = document.getElementById("table"); 
+		Div.innerHTML = cocktail;
+		document.getElementById('name').innerHTML=data.Name;
+		document.getElementById('Email').innerHTML=data.Email;
+		document.getElementById('Age').innerHTML=data.Age;
+		document.getElementById('Gender').innerHTML=data.Gender;
+		document.getElementById('Tr_no').innerHTML=data.Tr_no;
+		document.getElementById('From').innerHTML=data.From;
+		document.getElementById('To').innerHTML=data.To;
+		document.getElementById('Train_Name').innerHTML=data.Train_Name;
+		document.getElementById('Arrival_Time').innerHTML=data.Arrival_Time;
+		document.getElementById('Departure_Time').innerHTML=data.Departure_Time;
+		document.getElementById('Status').innerHTML=data.Status;
+		if(data.Status=="Booked")
+		{
+			document.getElementById('Seat_No').innerHTML=data.Seat_No;
+		}
+		else{
+			document.getElementById('Waiting_No').innerHTML=data.Waiting_No;
+		}
+		document.getElementById("idpnr").value = id;
+		}
+	
+	
+	function delfunc()
+	{
+		var newid = document.getElementById("id").value;
+		console.log(newid);
+		var new_var= JSON.stringify({'id':newid});
+		console.log(new_var)
+		const response = fetch('https://7xxq065zvj.execute-api.us-east-1.amazonaws.com/dev/newres',{
+			method: 'POST',
+			mode:"no-cors",
+			headers:{
+				'Content-Type':'application/json',
+				'Access-Control-Allow-Origin':'*'
+			},
+			body: new_var
+		});
+		const result = response.json();
+		console.log(result)
+		alert(result);
+	}
+</script>
+</html>
