@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../css/style.css">
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	<title>OC-Travels</title>
+</head>
+
+<body>
+	<div class="container">
+
+		<header>
+			<h2><a href="#"><i class="ion-plane"></i>OC-Travels</a></h2>
+			<nav>
+				<ul>
+					<li>
+						<a href="./pages/pnr_detail.html" title="Hotels">PNR Details</a>
+					</li>
+					<li>
+						<a class="btn" href="./pages/login.html" title="Register / Log In">Register/Log In</a>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<div class="cover">
+			<h1>Discover what's out there.</h1>
+			<form class="flex-form" action="" method="get">
+				<select name="search" id="dep">
+					<option value="from">From</option>
+					<option value="Mum">Mumbai</option>
+					<option value="Pun">Pune</option>
+					<option value="Hyd">Hydrabad</option>
+					<option value="Che">Chennai</option>
+					<option value="Gan">Gandhinagar</option>
+					<option value="Viz">Vizag</option>
+				  </select>
+
+				  <select name="search" id="ari">
+					<option value="to">To</option>
+					<option value="Mum">Mumbai</option>
+					<option value="Pun">Pune</option>
+					<option value="Hyd">Hydrabad</option>
+					<option value="Che">Chennai</option>
+					<option value="Gan">Gandhinagar</option>
+					<option value="Viz">Vizag</option>
+				  </select>
+				  <input type="button" value="submit" onclick="getval(document.getElementById('dep').value,document.getElementById('ari').value)">
+			</form>
+		</div>
+	</div>
+<div class="sec-half" id="sec-half">
+	<!-- <table>
+		<caption class="cap-1">Available Trains</caption>
+		<thead>
+		  <tr>
+			<td>Avatar</td>
+			<td>Group</td>
+			<td>Train Name</td>
+			<td>Ticket Price</td>
+			<td>Booking</td>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td><img src="https://via.placeholder.com/50x50/8C8381/fff"></td>
+			<td>Ninja</td>
+			<td>Ahmed Mohamed </td>
+			<td>1200</td>
+			<td> <a href="./pages/book_ticket.html" class="button-1" type="button"> Book</a></td>
+		  </tr>
+		  <tr>
+			<td><img src="https://via.placeholder.com/50x50/8C8381/fff"></td>
+			<td>Ninja</td>
+			<td>Shady Nabil</td>
+			<td>1800</td>
+			<td> <a href="./pages/book_ticket.html" class="button-1" type="button"> Book</a></td>
+		  </tr>
+		  <tr>
+			<td><img src="https://via.placeholder.com/50x50/8C8381/fff"></td>
+			<td>Valhalaa</td>
+			<td>Mohamed Ibrahim</td>
+			<td>1900</td>
+			<td> <a href="./pages/book_ticket.html" class="button-1" type="button"> Book</a></td>
+		  </tr>
+		  <tr>
+			<td><img src="https://via.placeholder.com/50x50/8C8381/fff"></td>
+			<td>Union</td>
+			<td> Mohamed Adel </td>
+			<td>900</td>
+			<td> <a href="./pages/book_ticket.html" class="button-1" type="button"> Book</a></td>
+		  </tr>
+		  <tr>
+			<td><img src="https://via.placeholder.com/50x50/8C8381/fff"></td>
+			<td>Union</td>
+			<td> Mohamed Adel </td>
+			<td>900</td>
+			<td> <a href="./pages/book_ticket.html" class="button-1" type="button"> Book</a></td>
+		  </tr>
+		  <tr>
+			<td><img src="https://via.placeholder.com/50x50/8C8381/fff"></td>
+			<td>Union</td>
+			<td> Mohamed Adel </td>
+			<td>900</td>
+			<td> <a href="./pages/book_ticket.html" class="button-1" type="button"> Book</a></td>
+		  </tr>
+		</tbody>
+	  
+	  </table> -->
+</div>
+</body>
+<script>
+	// var email = sessionStorage.getItem('email');
+	//     if(email=="")
+	//     {
+	//         window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+	//     }
+	function getval(dep,ari){
+		var id=dep+'-'+ari;
+		console.log(id);
+		var st= 'https://7xxq065zvj.execute-api.us-east-1.amazonaws.com/dev/newres?id='+id;
+		fetch(st)
+		.then(response=>response.json())
+		.then(data=>{
+			display(data)
+		}
+		)
+	}
+		function display(data) {
+		console.log(data);
+		html="<table><caption class='cap-1'>Available Trains</caption><thead><tr><td>Train_Name</td><td>Capacity</td><td>AvaiableSeats</td><td>Arrival_Time</td><td>Departure_Time</td><td>Waiting</td><td>Book</td></tr></thead>"
+
+			for(var i=0;i<data.length;i++)
+		{
+			console.log(data[i])
+			html+="<tbody><tr><td>"+data[i].Train_Name+"</td><td>"+data[i].Capacity+"</td><td>"+data[i].AvaiableSeats+"</td><td>"+data[i].Arrival_Time+"</td><td>"+data[i].Departure_Time+"</td><td>"+data[i].Waiting+"</td><td><form action='book_ticket.html' method='GET'><button value='book' onclick=print("+data[i].Tr_no+")>Book Now</button></form></td></tr>"
+		}
+		html+="</tbody></table>"
+		const cocktail = html;
+		const Div = document.getElementById("sec-half");
+		Div.innerHTML = cocktail;
+		}
+	let headers = new Headers();
+
+	function print(data)
+	{
+		console.log(data)
+		sessionStorage.setItem("tr_no", data)
+	}
+</script>
+</html>

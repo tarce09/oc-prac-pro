@@ -27,6 +27,9 @@
             <label for="name">name:</label>
             <input id="name" name="name" >
             <br>
+            <label for="email">email:</label>
+            <input id="email" name="email" >
+            <br>
             <label for="age">age:</label>
             <input id="age" name="age" >
             <br>
@@ -42,22 +45,22 @@
         <div id="new"></div>
         <script>
                 var id = sessionStorage.getItem('tr_no');
-                var email = sessionStorage.getItem('email');
-                console.log(email);
-                if(email=="")
-                {
-                    window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
-                }
+                // var email = sessionStorage.getItem('email');
+                // console.log(email);
+                // if(email=="")
+                // {
+                //     window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+                // }
                 if(id=="")
                 {
                     window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/trains.html";
                 }
                 function logout()
                 {
-                    sessionStorage.setItem("email", "");
+                    // sessionStorage.setItem("email", "");
                     sessionStorage.setItem("tr_no", "");
-                    sessionStorage.setItem("name", "");
-                    window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+                    // sessionStorage.setItem("name", "");
+                    // window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
                     
                 }
                 var st= 'https://7xxq065zvj.execute-api.us-east-1.amazonaws.com/dev/newres?id='+id;
