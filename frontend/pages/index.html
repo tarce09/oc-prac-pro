@@ -18,10 +18,10 @@
 			<nav>
 				<ul>
 					<li>
-						<a href="./pages/pnr_detail.html" title="Hotels">PNR Details</a>
+						<a href="./pnr_detail.html" title="Hotels">PNR Details</a>
 					</li>
 					<li>
-						<a class="btn" href="./pages/login.html" title="Register / Log In">Register/Log In</a>
+						<button class="btn" onclick="logout()">Log out</button>
 					</li>
 				</ul>
 			</nav>
@@ -54,71 +54,14 @@
 		</div>
 	</div>
 <div class="sec-half" id="sec-half">
-	<!-- <table>
-		<caption class="cap-1">Available Trains</caption>
-		<thead>
-		  <tr>
-			<td>Avatar</td>
-			<td>Group</td>
-			<td>Train Name</td>
-			<td>Ticket Price</td>
-			<td>Booking</td>
-		  </tr>
-		</thead>
-		<tbody>
-		  <tr>
-			<td><img src="https://via.placeholder.com/50x50/8C8381/fff"></td>
-			<td>Ninja</td>
-			<td>Ahmed Mohamed </td>
-			<td>1200</td>
-			<td> <a href="./pages/book_ticket.html" class="button-1" type="button"> Book</a></td>
-		  </tr>
-		  <tr>
-			<td><img src="https://via.placeholder.com/50x50/8C8381/fff"></td>
-			<td>Ninja</td>
-			<td>Shady Nabil</td>
-			<td>1800</td>
-			<td> <a href="./pages/book_ticket.html" class="button-1" type="button"> Book</a></td>
-		  </tr>
-		  <tr>
-			<td><img src="https://via.placeholder.com/50x50/8C8381/fff"></td>
-			<td>Valhalaa</td>
-			<td>Mohamed Ibrahim</td>
-			<td>1900</td>
-			<td> <a href="./pages/book_ticket.html" class="button-1" type="button"> Book</a></td>
-		  </tr>
-		  <tr>
-			<td><img src="https://via.placeholder.com/50x50/8C8381/fff"></td>
-			<td>Union</td>
-			<td> Mohamed Adel </td>
-			<td>900</td>
-			<td> <a href="./pages/book_ticket.html" class="button-1" type="button"> Book</a></td>
-		  </tr>
-		  <tr>
-			<td><img src="https://via.placeholder.com/50x50/8C8381/fff"></td>
-			<td>Union</td>
-			<td> Mohamed Adel </td>
-			<td>900</td>
-			<td> <a href="./pages/book_ticket.html" class="button-1" type="button"> Book</a></td>
-		  </tr>
-		  <tr>
-			<td><img src="https://via.placeholder.com/50x50/8C8381/fff"></td>
-			<td>Union</td>
-			<td> Mohamed Adel </td>
-			<td>900</td>
-			<td> <a href="./pages/book_ticket.html" class="button-1" type="button"> Book</a></td>
-		  </tr>
-		</tbody>
-	  
-	  </table> -->
 </div>
 </body>
 <script>
-	// var email = sessionStorage.getItem('email');
-	//     if(email=="")
-	//     {
-	//         window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
-	//     }
+	var email = sessionStorage.getItem('email');
+	    if(email=="")
+	    {
+	        window.location.href = "./login.html";
+	    }
 	function getval(dep,ari){
 		var id=dep+'-'+ari;
 		console.log(id);
@@ -151,5 +94,13 @@
 		console.log(data)
 		sessionStorage.setItem("tr_no", data)
 	}
+	function logout()
+  {
+      sessionStorage.setItem("email", "");
+      sessionStorage.setItem("tr_no", "");
+      sessionStorage.setItem("name", "");
+      window.location.href = "./login.html";
+      
+  }
 </script>
 </html>
