@@ -11,13 +11,15 @@
     <div class="container">
         <div class="login">
            <div class="container">
+            <form id="myForm" action='book.html'>
                 <h1>Log in</h1>
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password"><br>
-                <input type="checkbox"><span>Remember me</span>
-                <a href="../pages/fp.html">Forgot password?</a>
-                <button>log in</button> 
+                <input type="email" placeholder="Email" id="email" name="email" required>
+                <input type="password" placeholder="Password" id="password" name="password" type="password" required><br>
+                <!-- <input type="checkbox"><span>Remember me</span>
+                <a href="../pages/fp.html">Forgot password?</a> -->
+                <button  id="postSubmit">log in</button> 
            </div>
+        </form>
         </div>
         <div class="register">
             <div class="container">
@@ -29,4 +31,38 @@
         </div>  
       </div>
 </body>
+<script>
+    var email = sessionStorage.getItem('email');
+    if(email!="")
+    {
+        window.location.href = "./index.html";
+    }
+    
+                const thisForm = document.getElementById('myForm');
+                thisForm.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    const formData = new FormData(thisForm).entries()
+                    var new_var= JSON.stringify(Object.fromEntries(formData));
+                    const response = await fetch('https://7xxq065zvj.execute-api.us-east-1.amazonaws.com/dev/authres', {
+                        method: 'POST',
+                        mode:"no-cors",
+                        headers:{
+                            'Content-Type':'application/json',
+                            'Access-Control-Allow-Origin':'*'
+                        },
+                        body: new_var
+                    })
+                    .then(response => {       
+                        console.log(response);
+                    })
+                    .then(data => {
+                        console.log(data);
+                    })
+                    sessionStorage.setItem("email", document.getElementById('email').value);
+                    sessionStorage.setItem("tr_no","");
+                    window.location.href = "./index.html";
+                })
+                
+
+</script>
 </html>

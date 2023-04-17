@@ -262,3 +262,7 @@ h1.form-title {
 		margin-top: 7px;
 	}
 }
+
+#myForm{
+transform: translateY(-17px);
+}

@@ -73,24 +73,24 @@
 </body>
 <script>
   var id = sessionStorage.getItem('tr_no');
-  // var email = sessionStorage.getItem('email');
-  // console.log(email);
-  // if(email=="")
-  // {
-  //     window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
-  // }
+  var email = sessionStorage.getItem('email');
+  console.log(email);
+  if(email=="")
+  {
+      window.location.href = "./login.html";
+  }
   if(id=="")
   {
-      window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/trains.html";
+      window.location.href = "./index.html";
   }
-  function logout()
-  {
-      // sessionStorage.setItem("email", "");
-      sessionStorage.setItem("tr_no", "");
-      // sessionStorage.setItem("name", "");
-      // window.location.href = "http://127.0.0.1:5500/oc-prac-pro/static/login.html";
+  // function logout()
+  // {
+  //     sessionStorage.setItem("email", "");
+  //     sessionStorage.setItem("tr_no", "");
+  //     sessionStorage.setItem("name", "");
+  //     window.location.href = "./login.html";
       
-  }
+  // }
   var st= 'https://7xxq065zvj.execute-api.us-east-1.amazonaws.com/dev/newres?id='+id;
   fetch(st)
   .then(response=>response.json())
